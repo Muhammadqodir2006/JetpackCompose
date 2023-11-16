@@ -28,7 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcompose.R
+import com.example.jetpackcompose.navigation.NavGraph
 import com.example.jetpackcompose.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,46 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            JetpackComposeTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    HomeScreen()
-                }
-            }
+            NavGraph(navController = rememberNavController())
         }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun HomeScreen() {
-        Box {
-            Image(painter = painterResource(id = R.drawable.main_background), contentDescription = "Main background", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Transparent),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                PlayButton("Easy", 0, R.color.green50)
-                PlayButton("Medium", 1, R.color.blue50)
-                PlayButton("Hard", 2, R.color.red50)
-            }
-        }
-}
-
-@Composable
-fun PlayButton(text:String, id:Int, backColor:Int) {
-    Button(
-        modifier = Modifier.padding(0.dp, 2.dp),
-        border = BorderStroke(2.dp, colorResource(id = R.color.border_gray50)),
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = backColor)),
-        onClick = {
-
-        }) {
-        Text(text = text, color = colorResource(id = R.color.white), fontSize = 20.sp)
     }
 }
