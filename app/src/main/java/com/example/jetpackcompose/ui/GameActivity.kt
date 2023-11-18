@@ -1,6 +1,5 @@
 package com.example.jetpackcompose.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,6 +22,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcompose.R
+import kotlinx.coroutines.delay
 
 @Preview(showBackground = true)
 @Composable
@@ -51,29 +51,51 @@ fun PreviewGameScreen() {
 @Composable
 fun GameScreen(navController: NavController, level: String) {
     val score = remember { mutableIntStateOf(0) }
+    val time = remember { mutableIntStateOf(60) }
+
+    LaunchedEffect(Unit) {
+        while (time.intValue > 0) {
+            delay(1000)
+            time.intValue--
+        }
+
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
+        // App bar
         Box(
             contentAlignment = Alignment.CenterStart,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = colorResource(id = R.color.app_gray)),
+                .background(color = colorResource(id = R.color.app_gray10)),
         ) {
             EndGameButton()
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 4.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(40.dp),
-
+                        .size(45.dp)
+                        .clip(shape = RoundedCornerShape(18.dp))
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "${time.intValue}",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = colorResource(
+                            id = R.color.app_gray30
+                        )
                     )
+                }
                 Text(
                     text = "Score: ${score.intValue}",
                     color = Color.White,
@@ -82,21 +104,37 @@ fun GameScreen(navController: NavController, level: String) {
                 )
             }
         }
+        // Misol chiqadigan joy
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f, true)
-                .clip(shape = RoundedCornerShape(16.dp))
-                .background(Color.White)
         )
-        Row {
-            SymbolButton(0, R.drawable.minus_icon, score)
-            SymbolButton(1, R.drawable.plus_icon, score)
+        // Ishoralar
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+                .background(color = colorResource(id = R.color.app_gray10), shape = RoundedCornerShape(64.dp)),
+
+            ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+
+                Row(modifier = Modifier.padding(0.dp, 6.dp, 0.dp, 0.dp)) {
+                    SymbolButton(0, R.drawable.minus_icon, score)
+                    SymbolButton(1, R.drawable.plus_icon, score)
+                }
+                Row {
+                    SymbolButton(2, R.drawable.divide_icon, score)
+                    SymbolButton(3, R.drawable.multiply_icon, score)
+                }
+            }
         }
-        Row {
-            SymbolButton(2, R.drawable.divide_icon, score)
-            SymbolButton(3, R.drawable.multiply_icon, score)
-        }
+
     }
 }
 
@@ -119,7 +157,7 @@ fun EndGameButton() {
                 painterResource(id = R.drawable.close_button),
                 contentDescription = "Back button",
                 tint = colorResource(
-                    id = R.color.app_gray
+                    id = R.color.app_gray10
                 )
             )
         }
@@ -132,13 +170,13 @@ fun RowScope.SymbolButton(id: Int, imageResource: Int, scoreVar: MutableIntState
         modifier = Modifier
             .weight(1f, true)
             .aspectRatio(1f, true)
-            .padding(6.dp),
+            .padding(8.dp),
         onClick = {
             onSymbolClick(id, scoreVar)
         },
         shape = RoundedCornerShape(64.dp),
-        border = BorderStroke(1.5.dp, colorResource(id = R.color.border_gray)),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+
     ) {
         Image(painter = painterResource(id = imageResource), contentDescription = "minus icon")
     }

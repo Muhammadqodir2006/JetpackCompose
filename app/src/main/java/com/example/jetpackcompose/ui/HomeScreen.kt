@@ -48,7 +48,7 @@ fun HomeScreen(navController: NavController) {
 fun PlayButton(text:String, id:Int, backColor:Int, navController: NavController) {
     Button(
         modifier = Modifier.padding(0.dp, 2.dp),
-        border = BorderStroke(2.dp, colorResource(id = R.color.border_gray50)),
+        border = BorderStroke(2.dp, colorResource(id = R.color.border_gray)),
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = backColor)),
         onClick = {

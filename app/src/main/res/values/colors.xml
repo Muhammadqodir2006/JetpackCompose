@@ -9,9 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="black80">#252525</color>
-    <color name="app_gray">#DADADA</color>
-    <color name="border_gray">#B8B8B8</color>
-    <color name="border_gray50">#99B8B8B8</color>
+    <color name="app_gray10">#EDEDED</color>
+    <color name="app_gray30">#DADADA</color>
+    <color name="border_gray40">#B8B8B8</color>
+    <color name="border_gray">#99B8B8B8</color>
     <color name="cyan_text">#4C817C</color>
     <color name="green50">#93DA9D</color>
     <color name="blue50">#86C1FF</color>
