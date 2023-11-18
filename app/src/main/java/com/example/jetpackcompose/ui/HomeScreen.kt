@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.jetpackcompose.R
-import com.example.jetpackcompose.navigation.Screens
+import com.example.jetpackcompose.navigation.Screen
 
 
 @Composable
@@ -52,7 +52,7 @@ fun PlayButton(text:String, id:Int, backColor:Int, navController: NavController)
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = backColor)),
         onClick = {
-            navController.navigate(Screens.Game.withArgs(id.toString()))
+            navController.navigate(Screen.Game.withArgs(id.toString()))
         }) {
         Text(text = text, color = colorResource(id = R.color.white), fontSize = 20.sp)
     }
