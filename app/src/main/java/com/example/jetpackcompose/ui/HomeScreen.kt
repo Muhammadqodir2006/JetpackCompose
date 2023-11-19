@@ -19,12 +19,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcompose.R
 import com.example.jetpackcompose.navigation.Screen
 
+@Preview
+@Composable
+fun ShowHome(){
+    HomeScreen(navController = rememberNavController())
+}
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -48,7 +55,7 @@ fun HomeScreen(navController: NavController) {
 fun PlayButton(text:String, id:Int, backColor:Int, navController: NavController) {
     Button(
         modifier = Modifier.padding(0.dp, 2.dp),
-        border = BorderStroke(2.dp, colorResource(id = R.color.border_gray)),
+        border = BorderStroke(2.dp, colorResource(id = R.color.gray)),
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = backColor)),
         onClick = {
