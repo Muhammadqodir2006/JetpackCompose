@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.jetpackcompose.model.Result
 import com.example.jetpackcompose.ui.GameScreen
 import com.example.jetpackcompose.ui.HomeScreen
+import com.example.jetpackcompose.ui.ResultScreen
 
 @Composable
 fun NavGraph (){
@@ -16,15 +18,30 @@ fun NavGraph (){
         composable(route = Screen.Home.route){
             HomeScreen(navController)
         }
-        composable(route = Screen.Game.route + "/{level}",
+        composable(route = Screen.Game.route ,
             arguments = listOf(
                 navArgument("level"){
-                    type = NavType.StringType
-                    nullable = false
+                    type = NavType.IntType
                 }
             )
             ) { entry ->
-            GameScreen(navController, entry.arguments?.getString("level")!!)
+            GameScreen(navController, entry.arguments?.getInt("level")!!)
+        }
+        composable(route = Screen.Result.route,
+            arguments = listOf(
+                navArgument("correct"){
+                    type = NavType.IntType
+                },navArgument("incorrect"){
+                    type = NavType.IntType
+                },navArgument("level"){
+                    type = NavType.IntType
+                },
+            )
+            ) { entry ->
+            val correct = entry.arguments?.getInt("correct")!!
+            val incorrect = entry.arguments?.getInt("incorrect")!!
+            val level = entry.arguments?.getInt("level")!!
+            ResultScreen(navController = navController, result = Result(correct = correct, incorrect =  incorrect, level = level))
         }
     }
 }
