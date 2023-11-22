@@ -1,5 +1,6 @@
 package com.example.jetpackcompose.ui
 
+import android.util.Log
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -48,7 +49,7 @@ import com.example.jetpackcompose.util.SharedPref
 @Preview
 @Composable
 fun PreviewResultScreen() {
-    ResultScreen(rememberNavController(), Result(14, 2, 2))
+    ResultScreen(rememberNavController(), Result(14, 2, 2, true))
 }
 
 fun getLevelName(id: Int): String {
@@ -88,7 +89,8 @@ fun ResultScreen(navController: NavController, result: Result) {
             verticalArrangement = Arrangement.Center
         ) {
             val shared = SharedPref.getInstance(LocalContext.current)
-            if (shared.getRecord(result.level) < result.correct) {
+            if (result.newRecord) {
+                Log.d("TAG", "shared: ${shared.getRecord(result.level)}")
                 Box(
                     modifier = Modifier
                         .background(
@@ -110,7 +112,6 @@ fun ResultScreen(navController: NavController, result: Result) {
                         color = colorResource(id = R.color.purple_500)
                     )
                 }
-                shared.setRecord(result.level, result.correct)
             }
             Text(
                 text = "Score: ${result.correct}",

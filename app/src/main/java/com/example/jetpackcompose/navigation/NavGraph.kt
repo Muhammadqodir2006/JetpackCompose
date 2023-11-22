@@ -35,13 +35,16 @@ fun NavGraph (){
                     type = NavType.IntType
                 },navArgument("level"){
                     type = NavType.IntType
+                },navArgument("new_record"){
+                    type = NavType.BoolType
                 },
             )
             ) { entry ->
             val correct = entry.arguments?.getInt("correct")!!
             val incorrect = entry.arguments?.getInt("incorrect")!!
             val level = entry.arguments?.getInt("level")!!
-            ResultScreen(navController = navController, result = Result(correct = correct, incorrect =  incorrect, level = level))
+            val newRecord = entry.arguments?.getBoolean("new_record")!!
+            ResultScreen(navController = navController, result = Result(correct = correct, incorrect =  incorrect, level = level, newRecord = newRecord))
         }
     }
 }

@@ -41,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +52,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcompose.R
 import com.example.jetpackcompose.model.Question
+import com.example.jetpackcompose.util.SharedPref
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,7 +68,8 @@ fun PreviewGameScreen() {
 fun GameScreen(navController: NavController, level: Int) {
     val correct = remember { mutableIntStateOf(0) }
     val total = remember { mutableIntStateOf(0) }
-    val time = remember { mutableIntStateOf(60) }
+    val context = LocalContext.current
+    val time = remember { mutableIntStateOf(20) }
     val question = remember { mutableStateOf(Question.generate(level)) }
     val appBarColor = colorResource(id = R.color.blue50)
     val testTextColor = remember { mutableStateOf(Color.White) }
@@ -86,7 +89,10 @@ fun GameScreen(navController: NavController, level: Int) {
             delay(1000)
             time.intValue--
         }
-        navController.navigate(route = "result_screen/${correct.intValue}/${total.intValue - correct.intValue}/$level")
+        val shared = SharedPref.getInstance(context)
+        val newRecord = shared.getRecord(level) < correct.intValue
+        if (newRecord) shared.setRecord(level, correct.intValue)
+        navController.navigate(route = "result_screen/${correct.intValue}/${total.intValue - correct.intValue}/$level/$newRecord")
     }
     if (openDialog.value) ShowDialog(navController = navController, openDialog)
 
